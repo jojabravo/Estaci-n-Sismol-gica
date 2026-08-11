@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --tinta: #0E1820;
+    --tinta-2: #152430;
+    --papel: #EFE9DB;
+    --papel-2: #DCD3C0;
+    --grafito: #7C8D9B;
+    --onda-p: #F2A03D;
+    --onda-s: #3FC7C0;
+    --foco: #E0503F;
+    --corteza: #7C6248;
+    --manto: #3B2F3B;
+    --linea: rgba(124, 141, 155, 0.28);
+
+    --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --font-mono: "IBM Plex Mono", monospace;
+  }
+
+  body {
+    background-color: var(--tinta);
+    color: var(--papel);
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Custom slider input styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 22px;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  background: var(--linea);
+  border-radius: 2px;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 4px;
+  background: var(--linea);
+  border-radius: 2px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--papel);
+  margin-top: -6px;
+  border: none;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background: #ffffff;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--papel);
+  border: none;
+}
+
+input[type="range"]:focus-visible {
+  outline: 2px solid var(--onda-s);
+  outline-offset: 3px;
+}
