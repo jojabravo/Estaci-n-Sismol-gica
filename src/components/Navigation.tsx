@@ -8,6 +8,7 @@ interface NavigationProps {
 
 export const Navigation: React.FC<NavigationProps> = ({ vistaActiva, setVistaActiva }) => {
   const tabs: { id: VistaTab; label: string }[] = [
+    { id: 'portada', label: '0 · Portada' },
     { id: 'particulas', label: '1 · Partículas' },
     { id: 'estacion', label: '2 · Estación' },
     { id: 'triangulacion', label: '3 · Triangulación' },

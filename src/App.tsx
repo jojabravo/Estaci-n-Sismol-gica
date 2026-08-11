@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { VistaTab } from './types';
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
+import { PortadaView } from './components/PortadaView';
 import { ParticulasView } from './components/ParticulasView';
 import { EstacionView } from './components/EstacionView';
 import { TriangulacionView } from './components/TriangulacionView';
 import { Footer } from './components/Footer';
 
 export default function App() {
-  const [vistaActiva, setVistaActiva] = useState<VistaTab>('particulas');
+  const [vistaActiva, setVistaActiva] = useState<VistaTab>('portada');
   const [soundEnabled, setSoundEnabled] = useState<boolean>(false);
 
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Navigation vistaActiva={vistaActiva} setVistaActiva={setVistaActiva} />
 
         <main className="mt-4">
+          {vistaActiva === 'portada' && <PortadaView setVistaActiva={setVistaActiva} />}
           {vistaActiva === 'particulas' && <ParticulasView />}
           {vistaActiva === 'estacion' && <EstacionView />}
           {vistaActiva === 'triangulacion' && <TriangulacionView />}

@@ -1,4 +1,4 @@
-export type VistaTab = 'particulas' | 'estacion' | 'triangulacion';
+export type VistaTab = 'portada' | 'particulas' | 'estacion' | 'triangulacion';
 
 export interface StationData {
   id: number;
