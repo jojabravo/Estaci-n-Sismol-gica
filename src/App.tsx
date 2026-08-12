@@ -3,6 +3,7 @@ import { VistaTab } from './types';
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
 import { PortadaView } from './components/PortadaView';
+import { SubduccionView } from './components/SubduccionView';
 import { ParticulasView } from './components/ParticulasView';
 import { EstacionView } from './components/EstacionView';
 import { TriangulacionView } from './components/TriangulacionView';
@@ -21,6 +22,7 @@ export default function App() {
 
         <main className="mt-4">
           {vistaActiva === 'portada' && <PortadaView setVistaActiva={setVistaActiva} />}
+          {vistaActiva === 'subduccion' && <SubduccionView />}
           {vistaActiva === 'particulas' && <ParticulasView />}
           {vistaActiva === 'estacion' && <EstacionView />}
           {vistaActiva === 'triangulacion' && <TriangulacionView />}

@@ -10,7 +10,7 @@ interface PortadaViewProps {
 export const PortadaView: React.FC<PortadaViewProps> = ({ setVistaActiva }) => {
   const handleStartLab = () => {
     audioEngine.playClick();
-    setVistaActiva('particulas');
+    setVistaActiva('subduccion');
   };
 
   const preguntas = [
@@ -187,14 +187,14 @@ export const PortadaView: React.FC<PortadaViewProps> = ({ setVistaActiva }) => {
         {/* Footer CTA on Cover */}
         <div className="mt-8 pt-6 border-t border-[rgba(124,141,155,0.2)] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-xs text-[#7C8D9B] font-mono leading-relaxed">
-            Una vez registradas tus respuestas en el cuaderno, avanza a la pestaña <b className="text-[#EFE9DB]">1 · Partículas</b> para experimentar la física de las ondas.
+            Una vez registradas tus respuestas en el cuaderno, avanza a la pestaña <b className="text-[#EFE9DB]">1 · Subducción Nazca</b> para experimentar la interacción de placas.
           </div>
 
           <button
             onClick={handleStartLab}
             className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded bg-[#3FC7C0] hover:bg-[#34b5ae] text-[#0E1820] font-display text-base font-bold uppercase tracking-wider transition-colors shadow-md"
           >
-            <span>Iniciar Laboratorio (1 · Partículas)</span>
+            <span>Iniciar Simulador (1 · Subducción Nazca)</span>
             <ArrowRight className="w-5 h-5" />
           </button>
         </div>
