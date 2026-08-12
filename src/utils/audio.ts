@@ -170,6 +170,147 @@ class SeismicAudioEngine {
     }
   }
 
+  /**
+   * Earthquake Ground Tremor Rumble ("Cuando todo tiembla"):
+   * Low-frequency ground shaking sound using lowpass noise and sub-bass oscillators
+   * modulated with low frequency wobble.
+   */
+  public playEarthquakeRumble(volume: number = 0.8, duration: number = 1.2) {
+    if (this.isMuted) return;
+    this.initCtx();
+    if (!this.ctx) return;
+
+    try {
+      const now = this.ctx.currentTime;
+
+      // 1. Filtered low-frequency pink/white noise for ground friction rumble
+      const bufferSize = Math.floor(this.ctx.sampleRate * Math.min(3, duration));
+      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+      }
+
+      const noise = this.ctx.createBufferSource();
+      noise.buffer = buffer;
+
+      const noiseFilter = this.ctx.createBiquadFilter();
+      noiseFilter.type = 'lowpass';
+      noiseFilter.frequency.setValueAtTime(150, now);
+      noiseFilter.frequency.exponentialRampToValueAtTime(50, now + duration);
+
+      const noiseGain = this.ctx.createGain();
+      noiseGain.gain.setValueAtTime(0.01, now);
+      noiseGain.gain.linearRampToValueAtTime(0.6 * volume, now + 0.1);
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+      noise.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
+      noiseGain.connect(this.ctx.destination);
+
+      noise.start(now);
+      noise.stop(now + duration);
+
+      // 2. Sub-bass sine oscillator with tremolo
+      const subOsc = this.ctx.createOscillator();
+      const subGain = this.ctx.createGain();
+      const lfo = this.ctx.createOscillator();
+      const lfoGain = this.ctx.createGain();
+
+      lfo.type = 'sine';
+      lfo.frequency.setValueAtTime(6, now); // 6 Hz ground tremor shaking
+      lfoGain.gain.setValueAtTime(12, now);
+
+      lfo.connect(subOsc.frequency);
+
+      subOsc.type = 'triangle';
+      subOsc.frequency.setValueAtTime(45, now);
+
+      subGain.gain.setValueAtTime(0.01, now);
+      subGain.gain.linearRampToValueAtTime(0.5 * volume, now + 0.08);
+      subGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+      subOsc.connect(subGain);
+      subGain.connect(this.ctx.destination);
+
+      lfo.start(now);
+      subOsc.start(now);
+
+      lfo.stop(now + duration);
+      subOsc.stop(now + duration);
+    } catch {
+      // Ignore
+    }
+  }
+
+  /**
+   * Rupture Explosion at Hypocenter:
+   * Sudden high-energy crack + deep sub-bass impact when fault breaks
+   */
+  public playRuptureExplosion(volume: number = 1.0) {
+    if (this.isMuted) return;
+    this.initCtx();
+    if (!this.ctx) return;
+
+    try {
+      const now = this.ctx.currentTime;
+
+      // 1. Initial rupture crack
+      const crackOsc = this.ctx.createOscillator();
+      const crackGain = this.ctx.createGain();
+
+      crackOsc.type = 'sawtooth';
+      crackOsc.frequency.setValueAtTime(320, now);
+      crackOsc.frequency.exponentialRampToValueAtTime(30, now + 0.3);
+
+      crackGain.gain.setValueAtTime(0.7 * volume, now);
+      crackGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+      crackOsc.connect(crackGain);
+      crackGain.connect(this.ctx.destination);
+
+      crackOsc.start(now);
+      crackOsc.stop(now + 0.4);
+
+      // 2. Heavy earthquake rumble immediately following rupture
+      this.playEarthquakeRumble(volume, 1.8);
+    } catch {
+      // Ignore
+    }
+  }
+
+  /**
+   * Epicenter Unlocked Chime
+   */
+  public playEpicenterUnlocked() {
+    if (this.isMuted) return;
+    this.initCtx();
+    if (!this.ctx) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+        const osc = this.ctx!.createOscillator();
+        const gain = this.ctx!.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + i * 0.08);
+
+        gain.gain.setValueAtTime(0, now + i * 0.08);
+        gain.gain.linearRampToValueAtTime(0.12, now + i * 0.08 + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.4);
+
+        osc.connect(gain);
+        gain.connect(this.ctx!.destination);
+
+        osc.start(now + i * 0.08);
+        osc.stop(now + i * 0.08 + 0.45);
+      });
+    } catch {
+      // Ignore
+    }
+  }
+
   public playClick() {
     if (this.isMuted) return;
     this.initCtx();

@@ -40,10 +40,16 @@ export const TriangulacionView: React.FC = () => {
   const toggleEstacion = (id: number) => {
     if (trazados.includes(id)) {
       setTrazados(trazados.filter((item) => item !== id));
+      audioEngine.playClick();
     } else {
-      setTrazados([...trazados, id]);
+      const next = [...trazados, id];
+      setTrazados(next);
+      if (next.length >= 3) {
+        audioEngine.playEpicenterUnlocked();
+      } else {
+        audioEngine.playWaveP(0.5);
+      }
     }
-    audioEngine.playClick();
   };
 
   const resetTri = () => {

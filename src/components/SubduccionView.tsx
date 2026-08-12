@@ -165,7 +165,7 @@ export const SubduccionView: React.FC = () => {
     setEsfuerzo(1);
     stationPAudioRef.current = {};
     stationSAudioRef.current = {};
-    audioEngine.playArrivalPulse('S');
+    audioEngine.playRuptureExplosion(1.0);
   }, []);
 
   const handleReiniciar = useCallback(() => {
@@ -504,6 +504,7 @@ export const SubduccionView: React.FC = () => {
             if (currT >= d.ts && !stationSAudioRef.current[i]) {
               stationSAudioRef.current[i] = true;
               audioEngine.playWaveS(0.8);
+              audioEngine.playEarthquakeRumble(0.85, 2.2);
             }
           }
         }
@@ -954,8 +955,8 @@ export const SubduccionView: React.FC = () => {
             </div>
 
             <div>
-              <div className="text-[#7C8D9B] mb-1">Visibilidad de Ondas:</div>
-              <div className="flex gap-2">
+              <div className="text-[#7C8D9B] mb-1">Visibilidad de Ondas y Pruebas Audio:</div>
+              <div className="flex flex-wrap gap-1.5">
                 <button
                   onClick={() => setVerP(!verP)}
                   className={`flex-1 py-1 px-2 rounded border text-xs font-bold transition-colors ${
@@ -975,6 +976,16 @@ export const SubduccionView: React.FC = () => {
                   }`}
                 >
                   Onda S
+                </button>
+                <button
+                  onClick={() => {
+                    audioEngine.playEarthquakeRumble(0.85, 2.0);
+                  }}
+                  className="py-1 px-2.5 rounded bg-[rgba(242,160,61,0.15)] hover:bg-[rgba(242,160,61,0.25)] text-[#F2A03D] border border-[rgba(242,160,61,0.3)] text-xs font-bold transition-colors flex items-center gap-1"
+                  title="Escuchar audio de la Tierra temblando"
+                >
+                  <Volume2 className="w-3.5 h-3.5" />
+                  <span>🔊 Temblor</span>
                 </button>
               </div>
             </div>
